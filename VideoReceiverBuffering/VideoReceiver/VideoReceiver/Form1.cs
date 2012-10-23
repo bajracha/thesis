@@ -11,7 +11,7 @@ using System.Net.Sockets;
 using System.IO;
 using System.Threading;
 using System.Management;
-//using System.Reflection;
+using System.Reflection;
 //using System.Reflection.Emit;
 
 namespace VideoReceiver
@@ -62,7 +62,8 @@ namespace VideoReceiver
 
             CheckForIllegalCrossThreadCalls = false;
 
-            
+
+            SetDoubleBuffered(pbFrame);
             
 
             //Console.WriteLine(this.CPUSpeed());            
@@ -86,6 +87,14 @@ namespace VideoReceiver
             progDisplay.Maximum = 2000;
             progDisplay.Value = 1;
             progDisplay.Step = 1;
+        }
+
+        public static void SetDoubleBuffered(Control control)
+        {
+            // set instance non-public property with name "DoubleBuffered" to true
+            typeof(Control).InvokeMember("DoubleBuffered",
+                BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
+                null, control, new object[] { true });
         }
 
         /*private void btnStart_Click(object sender, EventArgs e)
@@ -161,7 +170,7 @@ namespace VideoReceiver
             {
                 //Application.Idle += new EventHandler(delegate(object sender1, EventArgs e1)
                 //{
-                if (frameBuffer.size() >= 50)
+                if (frameBuffer.size() >= 100)
                 {
                     try
                     {
@@ -172,7 +181,8 @@ namespace VideoReceiver
                         imgStream.Close();
                         if (bmpImage != null)
                         {
-                            pbFrame.Image = bmpImage;                            
+                            pbFrame.Image = bmpImage;
+                            pbFrame.Refresh();
                             progDisplay.PerformStep();                            
                         }
 
@@ -181,10 +191,10 @@ namespace VideoReceiver
 
                         dt1 = DateTime.Now;
                         //delay = new System.Threading.Timer(delayCallBack, null, 0, 5000);
-                        Thread.Sleep(25);
+                        Thread.Sleep(33);
                         dt2 = DateTime.Now;
                         ts = dt2 - dt1;
-                        Console.WriteLine(ts.Milliseconds);
+                        //Console.WriteLine(ts.Milliseconds);
                         //delay.Dispose();
                             
 
@@ -229,6 +239,7 @@ namespace VideoReceiver
                 try
                 {
                     receiveByteArray = listener.Receive(ref groupEP);
+                    Console.WriteLine("receive: " + receiveByteArray.Length);
                     frameBuffer.enqueue(ref receiveByteArray);
 
                     d = frameBuffer.diff();

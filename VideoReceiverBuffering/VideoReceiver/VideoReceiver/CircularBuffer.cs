@@ -11,7 +11,7 @@ namespace VideoReceiver
         List<byte[]> buffer;       
         int head;
         int tail;
-        const int capacity = 500;
+        const int capacity = 1000;
         int count;
         
 

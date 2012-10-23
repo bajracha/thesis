@@ -25,3 +25,12 @@ C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\SendReceiveOnly\Vide
 C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\SendReceiveOnly\VideoReceiverBuffering\VideoReceiver\VideoReceiver\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\SendReceiveOnly\VideoReceiverBuffering\VideoReceiver\VideoReceiver\obj\x86\Debug\VideoReceiver.exe
 C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\SendReceiveOnly\VideoReceiverBuffering\VideoReceiver\VideoReceiver\obj\x86\Debug\VideoReceiver.pdb
+C:\Users\Mahesh\Documents\Repo\thesis\VideoReceiverBuffering\VideoReceiver\VideoReceiver\obj\x86\Debug\VideoReceiver.exe
+C:\Users\Mahesh\Documents\Repo\thesis\VideoReceiverBuffering\VideoReceiver\VideoReceiver\obj\x86\Debug\VideoReceiver.pdb
+C:\Users\Mahesh\Documents\Repo\thesis\VideoReceiverBuffering\VideoReceiver\VideoReceiver\bin\Debug\VideoReceiver.exe
+C:\Users\Mahesh\Documents\Repo\thesis\VideoReceiverBuffering\VideoReceiver\VideoReceiver\bin\Debug\VideoReceiver.pdb
+C:\Users\Mahesh\Documents\Repo\thesis\VideoReceiverBuffering\VideoReceiver\VideoReceiver\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Mahesh\Documents\Repo\thesis\VideoReceiverBuffering\VideoReceiver\VideoReceiver\obj\x86\Debug\VideoReceiver.Form1.resources
+C:\Users\Mahesh\Documents\Repo\thesis\VideoReceiverBuffering\VideoReceiver\VideoReceiver\obj\x86\Debug\VideoReceiver.Properties.Resources.resources
+C:\Users\Mahesh\Documents\Repo\thesis\VideoReceiverBuffering\VideoReceiver\VideoReceiver\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Mahesh\Documents\Repo\thesis\VideoReceiverBuffering\VideoReceiver\VideoReceiver\obj\x86\Debug\GenerateResource.write.1.tlog
