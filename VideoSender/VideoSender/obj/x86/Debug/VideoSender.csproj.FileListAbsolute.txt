@@ -16,3 +16,11 @@ C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\VideoSender\VideoSen
 C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\VideoSender\VideoSender\obj\x86\Debug\VideoSender.Properties.Resources.resources
 C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\VideoSender\VideoSender\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\VideoSender\VideoSender\obj\x86\Debug\GenerateResource.write.1.tlog
+D:\Master in Computer Science\Thesis\Video1.0\VideoSender\VideoSender\obj\x86\Debug\VideoSender.exe
+D:\Master in Computer Science\Thesis\Video1.0\VideoSender\VideoSender\obj\x86\Debug\VideoSender.pdb
+D:\Master in Computer Science\Thesis\Video1.0\VideoSender\VideoSender\bin\Debug\VideoSender.exe
+D:\Master in Computer Science\Thesis\Video1.0\VideoSender\VideoSender\bin\Debug\VideoSender.pdb
+D:\Master in Computer Science\Thesis\Video1.0\VideoSender\VideoSender\obj\x86\Debug\VideoSender.Form1.resources
+D:\Master in Computer Science\Thesis\Video1.0\VideoSender\VideoSender\obj\x86\Debug\VideoSender.Properties.Resources.resources
+D:\Master in Computer Science\Thesis\Video1.0\VideoSender\VideoSender\obj\x86\Debug\VideoSender.csproj.GenerateResource.Cache
+D:\Master in Computer Science\Thesis\Video1.0\VideoSender\VideoSender\obj\x86\Debug\VideoSender.csprojResolveAssemblyReference.cache
