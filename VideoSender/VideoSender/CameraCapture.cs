@@ -19,6 +19,7 @@ namespace VideoSender
             public const uint WM_CAP_SET_SCALE = 0x435;
             public const uint WS_CHILD = 0x40000000;
             public const uint WS_VISIBLE = 0x10000000;
+            public const uint WM_CAP_DLG_VIDEOFORMAT = WM_CAP+41;
         }
 
         /// <see cref="http://windowssdk.msdn.microsoft.com/en-us/library/ms713477(VS.80).aspx"/>
