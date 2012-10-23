@@ -11,7 +11,7 @@ namespace VideoSender
         List<byte[]> buffer;
         int head;
         int tail;
-        const int capacity = 200;
+        const int capacity = 2000;
         int count;
 
 

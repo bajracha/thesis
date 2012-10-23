@@ -127,7 +127,7 @@ namespace VideoSender
             while (true)
             {
                 
-                if (frameBuffer.size() >= 50)
+                if (frameBuffer.size() >= 40)
                 {
                     try
                     {
@@ -137,7 +137,7 @@ namespace VideoSender
                             sendingSocket.SendTo(frameBuffer.read(), sendingEndPoint);
                             progSend.PerformStep();
                         }
-                        Thread.Sleep(10);
+                        Thread.Sleep(30);
                     }
                     catch (Exception ex)
                     {
@@ -164,6 +164,7 @@ namespace VideoSender
                         imgDataStream = new MemoryStream();
                         image.Save(imgDataStream, ImageFormat.Jpeg);
                         sendByteArray = imgDataStream.ToArray();
+                        Console.WriteLine(sendByteArray.Length);
                         //Console.WriteLine("Buffering...");
                         frameBuffer.enqueue(ref sendByteArray);
                         if (progBuffer.Value >= progBuffer.Maximum)

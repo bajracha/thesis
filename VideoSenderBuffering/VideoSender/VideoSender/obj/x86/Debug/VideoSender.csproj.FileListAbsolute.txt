@@ -25,3 +25,12 @@ C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\SendReceiveOnly\Vide
 C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\SendReceiveOnly\VideoSenderBuffering\VideoSender\VideoSender\obj\x86\Debug\VideoSender.Properties.Resources.resources
 C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\SendReceiveOnly\VideoSenderBuffering\VideoSender\VideoSender\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\SendReceiveOnly\VideoSenderBuffering\VideoSender\VideoSender\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Mahesh\Documents\Repo\thesis\VideoSenderBuffering\VideoSender\VideoSender\obj\x86\Debug\VideoSender.exe
+C:\Users\Mahesh\Documents\Repo\thesis\VideoSenderBuffering\VideoSender\VideoSender\obj\x86\Debug\VideoSender.pdb
+C:\Users\Mahesh\Documents\Repo\thesis\VideoSenderBuffering\VideoSender\VideoSender\bin\Debug\VideoSender.exe
+C:\Users\Mahesh\Documents\Repo\thesis\VideoSenderBuffering\VideoSender\VideoSender\bin\Debug\VideoSender.pdb
+C:\Users\Mahesh\Documents\Repo\thesis\VideoSenderBuffering\VideoSender\VideoSender\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Mahesh\Documents\Repo\thesis\VideoSenderBuffering\VideoSender\VideoSender\obj\x86\Debug\VideoSender.Form1.resources
+C:\Users\Mahesh\Documents\Repo\thesis\VideoSenderBuffering\VideoSender\VideoSender\obj\x86\Debug\VideoSender.Properties.Resources.resources
+C:\Users\Mahesh\Documents\Repo\thesis\VideoSenderBuffering\VideoSender\VideoSender\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Mahesh\Documents\Repo\thesis\VideoSenderBuffering\VideoSender\VideoSender\obj\x86\Debug\GenerateResource.write.1.tlog
