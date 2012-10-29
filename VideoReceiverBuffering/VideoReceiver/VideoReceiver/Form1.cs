@@ -23,22 +23,17 @@ namespace VideoReceiver
         IPAddress receiveAddress;
         IPEndPoint groupEP;
         byte[] receiveByteArray;
-        MemoryStream imgStream;
-        Bitmap bmpImage;
+        List<byte[]> saveByteArray;
+        List<int> saveFrameSize;
+        //MemoryStream imgStream;
+        //Bitmap bmpImage;
         Thread buffering;
         Thread displaying;
-        CircularBuffer frameBuffer;
-        //DynamicMethod assemblyMethod;
-        //ILGenerator assemblyGen;
-        //System.Threading.Timer delay;
-        //System.Threading.TimerCallback delayCallBack;
+        //CircularBuffer frameBuffer;
 
-        int d; //for storing difference betn head and tail of buffer
-
-        DateTime dt1, dt2;
-        TimeSpan ts;
-
-        //ApplicationContext a;
+        int fileCount = 0;
+        int filesBuffered = 0;
+        //Boolean[] isBuffered;        
 
         public Form1()
         {
@@ -48,44 +43,49 @@ namespace VideoReceiver
             //receiveAddress = IPAddress.Parse("131.216.16.125");
             groupEP = new IPEndPoint(receiveAddress, listenPort);
             receiveByteArray = null;
-            imgStream = null;
-            bmpImage = null;
-            frameBuffer = new CircularBuffer();
+            //imgStream = null;
+            //bmpImage = null;
+            //frameBuffer = new CircularBuffer();
 
             displaying = new Thread(this.Display);
             buffering = new Thread(this.FillBuffer);
-            //delayCallBack = new TimerCallback(GenerateDelay);
+            saveByteArray = new List<byte[]>();
+            saveFrameSize = new List<int>();
 
-            //assemblyMethod = new DynamicMethod("NoOperation", null, Type.EmptyTypes);
-            //assemblyGen = assemblyMethod.GetILGenerator();
-            this.resetProgress();
+            this.resetProgress(1,1);
 
             CheckForIllegalCrossThreadCalls = false;
 
 
             SetDoubleBuffered(pbFrame);
-            
 
-            //Console.WriteLine(this.CPUSpeed());            
-            /*
-            DateTime dt1 = DateTime.Now;            
-            for (int i = 0; i < 1000000; i++) { }
-            DateTime dt2 = DateTime.Now;
-            TimeSpan ts = dt2 - dt1;
-            Console.WriteLine(ts.Milliseconds);
-            */
+            //isBuffered = new Boolean[20];
+            for (int oldFileCount = 1; oldFileCount <= 20; oldFileCount++)
+            {
+                String oldvidFilename = "Video" + oldFileCount.ToString() + ".dat";
+                String oldsizeFilename = "Siz" + oldFileCount.ToString() + ".dat";
+
+                if (File.Exists(oldsizeFilename))
+                {
+                    File.Delete(oldvidFilename);
+                    File.Delete(oldsizeFilename);
+                }
+
+                //isBuffered[oldFileCount - 1] = false;
+            }
+            
         }
 
-        private void resetProgress()
+        private void resetProgress(int buff, int dis)
         {
             progBuffer.Minimum = 1;
             progBuffer.Maximum = 2000;
-            progBuffer.Value = 1;
+            progBuffer.Value = buff;
             progBuffer.Step = 1;
 
             progDisplay.Minimum = 1;
             progDisplay.Maximum = 2000;
-            progDisplay.Value = 1;
+            progDisplay.Value = dis;
             progDisplay.Step = 1;
         }
 
@@ -97,61 +97,21 @@ namespace VideoReceiver
                 null, control, new object[] { true });
         }
 
-        /*private void btnStart_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Application.Idle += new EventHandler(delegate(object sender1, EventArgs e1)
-                {
-                    receiveByteArray = listener.Receive(ref groupEP);
-                    imgStream = new MemoryStream(receiveByteArray);
-                    bmpImage = new Bitmap(imgStream);
-                    imgStream.Close();
-                    if (bmpImage != null)
-                    {
-                        pbFrame.Image = bmpImage;
-                    }
-                });
-            }
-            catch
-            {
-            }
+       
             
-        }*/
+        
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            //start = true;
-            int d = 0;
+            
             try
             {
                  
                 if (buffering.ThreadState.ToString().Equals("Unstarted"))
-                    buffering.Start();
+                    buffering.Start();                
                 if (displaying.ThreadState.ToString().Equals("Unstarted"))
-                    displaying.Start();
-                /*
-                //while (true)
-                //{
-                
-                //Application.Idle += new EventHandler(delegate(object sender1, EventArgs e1)
-                //{
-
-                    d = frameBuffer.diff();
-                    //Console.WriteLine(d);
-                    if (d < 10)
-                    {
-                        //Console.WriteLine("Buffering..");
-                        displaying.Suspend();
-                    }
-                    else
-                    {
-                        if (displaying.ThreadState.ToString().Equals("Suspended"))
-                            displaying.Resume();
-                    }
-
-                //});
-               // }*/
+                    displaying.Start();           
+               
                 
             }
             catch (Exception ex)
@@ -163,100 +123,158 @@ namespace VideoReceiver
 
         private void Display()
         {
-            //int count = 100;
+            String vidFilename;
+            String sizeFilename;
+            FileStream vidFileStream;            
+            StreamReader sizeReader;
+            String s;
+            int size;
+            byte[] frameData;
+            MemoryStream frameStream;
+            Bitmap frame;
+            int fileCount = 1;
+
+               
 
             Console.WriteLine("Display...");
+            
+
             while (true)
             {
-                //Application.Idle += new EventHandler(delegate(object sender1, EventArgs e1)
-                //{
-                if (frameBuffer.size() >= 100)
+
+                try
                 {
-                    try
+                    if (filesBuffered > 3)
                     {
-                        //if (count > 0)
+                        
+                        //if (isBuffered[fileCount - 1])
                         //{
-                        imgStream = new MemoryStream(frameBuffer.read());
-                        bmpImage = new Bitmap(imgStream);
-                        imgStream.Close();
-                        if (bmpImage != null)
-                        {
-                            pbFrame.Image = bmpImage;
-                            pbFrame.Refresh();
-                            progDisplay.PerformStep();                            
+                            vidFilename = "Video" + fileCount.ToString() + ".dat";
+                            sizeFilename = "Siz" + fileCount.ToString() + ".dat";
+                            vidFileStream = new FileStream(vidFilename, FileMode.Open, FileAccess.Read);
+                            sizeReader = new StreamReader(sizeFilename);
+                            s = sizeReader.ReadLine();
+                            size = int.Parse(s);
+
+                            /*int oldFileCount = fileCount > 10 ? fileCount - 10 : (20 + fileCount - 10);
+                            String oldvidFilename = "Video" + oldFileCount.ToString() + ".dat";
+                            String oldsizeFilename = "Siz" + oldFileCount.ToString() + ".dat";
+
+                            if (File.Exists(oldsizeFilename))
+                            {
+                                File.Delete(oldvidFilename);
+                                File.Delete(oldsizeFilename);
+                            }*/
+
+                            fileCount++;
+                            if (fileCount > 20)
+                                fileCount = 1;
+
+                            while (s != null)
+                            {
+                                frameData = new byte[size];
+                                vidFileStream.Read(frameData, 0, size);
+                                frameStream = new MemoryStream(frameData);
+                                frame = new Bitmap(frameStream);
+                                frameStream.Close();
+                                pbFrame.Image = frame;
+                                pbFrame.Refresh();
+                                Thread.Sleep(80);
+                                progDisplay.PerformStep();
+                                s = sizeReader.ReadLine();
+                                try
+                                {
+                                    size = int.Parse(s);
+                                }
+                                catch { ;}
+                            }
+                            vidFileStream.Close();
+                            sizeReader.Close();
+                            //lock (isBuffered)
+                            //{
+                            //    isBuffered[fileCount - 1] = false;
+                            //}
+                            try
+                            {
+                                File.Delete(vidFilename);
+                                File.Delete(sizeFilename);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("File Delete Error: " + ex.Message);
+                            }
                         }
-
-                        //}
-                        //count--;
-
-                        dt1 = DateTime.Now;
-                        //delay = new System.Threading.Timer(delayCallBack, null, 0, 5000);
-                        Thread.Sleep(33);
-                        dt2 = DateTime.Now;
-                        ts = dt2 - dt1;
-                        //Console.WriteLine(ts.Milliseconds);
-                        //delay.Dispose();
-                            
-
-
-                        //Thread.Sleep(15);
-                        /*dt1 = DateTime.Now;
-                        for (int i = 0; i < 300000; i++)
-                        {
-                            assemblyGen.Emit(OpCodes.Nop);
-                        }
-                        dt2 = DateTime.Now;
-                        ts = dt2 - dt1;*/
-                        //Console.WriteLine(this.CPUSpeed());
-                        //Console.WriteLine(ts.Milliseconds);
-
-
-                            
-                    }
-                    catch(Exception ex) 
-                    {
-                        Console.WriteLine("Display " + ex.Message);
-                        //Console.Clear();
-                    }
+                    //}
                 }
+                catch (FileNotFoundException) { Thread.Sleep(200); }
+                catch (Exception ex)
+                {                    
+                    Console.WriteLine("Display " + ex.Message);                    
+                }
+
+
+               
             }
-           // });            
+                       
 
         }
 
-        /*private void GenerateDelay(Object o)
-        {
-            ;
-        }*/
+        
 
         private void FillBuffer()
         {
             Console.WriteLine("filling...");            
             while (true)
             {
-                // Application.Idle += new EventHandler(delegate(object sender1, EventArgs e1)
-                // {
+                
                 try
                 {
                     receiveByteArray = listener.Receive(ref groupEP);
-                    Console.WriteLine("receive: " + receiveByteArray.Length);
-                    frameBuffer.enqueue(ref receiveByteArray);
+                    saveByteArray.Add(receiveByteArray);
+                    saveFrameSize.Add(receiveByteArray.Length);
+                    //Console.WriteLine(saveByteArray.Count);
+                    if (saveByteArray.Count >= 40)
+                    {
+                        fileCount++;
+                        //if (!isBuffered[fileCount - 1])
+                        //{
+                            if (fileCount > 20)
+                                fileCount = 1;
 
-                    d = frameBuffer.diff();
-                    if (d < 10)
-                    {
-                        displaying.Suspend();
+                            String vidFilename = "Video" + fileCount.ToString() + ".dat";
+                            String sizeFilename = "Siz" + fileCount.ToString() + ".dat";
+                            FileStream vidFileStream = new FileStream(vidFilename, FileMode.Create, FileAccess.Write);
+                            StreamWriter sizeFileStream = new StreamWriter(sizeFilename);
+
+                            foreach (byte[] byteArrayElement in saveByteArray)
+                                vidFileStream.Write(byteArrayElement, 0, byteArrayElement.Length);
+
+
+                            foreach (int sizeArrayElement in saveFrameSize)
+                                sizeFileStream.WriteLine(sizeArrayElement);
+
+
+                            saveByteArray.Clear();
+                            saveFrameSize.Clear();
+                            filesBuffered = filesBuffered > 5 ? 5 : filesBuffered + 1;
+                            vidFileStream.Close();
+                            sizeFileStream.Close();
+
+                            //lock (isBuffered)
+                            //{
+                             //   isBuffered[fileCount - 1] = true;
+                            //}
+
+                            
+
+
+                        //}
                     }
-                    else
-                    {
-                        if (displaying.ThreadState.ToString().Equals("Suspended"))
-                            displaying.Resume();
-                    }
-                    
                     if (progBuffer.Value >= progBuffer.Maximum)
-                        this.resetProgress();
+                        //this.resetProgress(Math.Abs(progBuffer.Value-progDisplay.Value),1);
+                        this.resetProgress(1,1);
                     else
-                        progBuffer.PerformStep();                   
+                        progBuffer.PerformStep();
                     
                 }
                 catch (Exception ex)
@@ -265,7 +283,7 @@ namespace VideoReceiver
                 }
             }
 
-            //});
+            
             
         }
 
@@ -275,10 +293,7 @@ namespace VideoReceiver
             try
             {
                 //start = false;
-                buffering.Abort();
-                //while (buffering.IsAlive) { }
-                if (displaying.ThreadState.ToString().Equals("Suspended"))
-                    displaying.Resume();
+                buffering.Abort();                
                 displaying.Abort();
                 //while (displaying.IsAlive) { }
                 listener.Close();               
@@ -292,18 +307,7 @@ namespace VideoReceiver
                 Application.Exit();
             }
             
-            /*Application.ApplicationExit += new EventHandler(delegate(object sender1, EventArgs e1)
-            {
-                //System.Console.WriteLine("socket closed");
-                
-                try
-                {
-                    buffering.Abort();
-                    displaying.Abort();
-                    listener.Close();                    
-                }
-                catch { }
-            });*/
+            
         }
 
         private uint CPUSpeed()
