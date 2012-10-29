@@ -25,3 +25,5 @@ C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\VideoReceiverPlaybac
 C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\VideoReceiverPlayback\VideoReceiver\VideoReceiver\obj\x86\Debug\VideoReceiver.Properties.Resources.resources
 C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\VideoReceiverPlayback\VideoReceiver\VideoReceiver\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\VideoReceiverPlayback\VideoReceiver\VideoReceiver\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Mahesh\Documents\Repo\thesis\VideoReceiver\VideoReceiver\obj\x86\Debug\VideoReceiver.exe
+C:\Users\Mahesh\Documents\Repo\thesis\VideoReceiver\VideoReceiver\obj\x86\Debug\VideoReceiver.pdb
