@@ -32,9 +32,7 @@
             this.btnStart = new System.Windows.Forms.Button();
             this.pbImage = new System.Windows.Forms.PictureBox();
             this.btnStop = new System.Windows.Forms.Button();
-            this.pbFrame = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbImage)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbFrame)).BeginInit();
             this.SuspendLayout();
             // 
             // cboDevices
@@ -57,9 +55,9 @@
             // 
             // pbImage
             // 
-            this.pbImage.Location = new System.Drawing.Point(354, 230);
+            this.pbImage.Location = new System.Drawing.Point(12, 65);
             this.pbImage.Name = "pbImage";
-            this.pbImage.Size = new System.Drawing.Size(42, 39);
+            this.pbImage.Size = new System.Drawing.Size(320, 240);
             this.pbImage.TabIndex = 2;
             this.pbImage.TabStop = false;
             // 
@@ -73,20 +71,11 @@
             this.btnStop.UseVisualStyleBackColor = true;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
-            // pbFrame
-            // 
-            this.pbFrame.Location = new System.Drawing.Point(29, 52);
-            this.pbFrame.Name = "pbFrame";
-            this.pbFrame.Size = new System.Drawing.Size(304, 217);
-            this.pbFrame.TabIndex = 4;
-            this.pbFrame.TabStop = false;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(429, 294);
-            this.Controls.Add(this.pbFrame);
+            this.ClientSize = new System.Drawing.Size(454, 328);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.pbImage);
             this.Controls.Add(this.btnStart);
@@ -94,7 +83,6 @@
             this.Name = "Form1";
             this.Text = "Video Send";
             ((System.ComponentModel.ISupportInitialize)(this.pbImage)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbFrame)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -105,7 +93,6 @@
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.PictureBox pbImage;
         private System.Windows.Forms.Button btnStop;
-        private System.Windows.Forms.PictureBox pbFrame;
     }
 }
 

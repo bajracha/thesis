@@ -24,3 +24,12 @@ D:\Master in Computer Science\Thesis\Video1.0\VideoSender\VideoSender\obj\x86\De
 D:\Master in Computer Science\Thesis\Video1.0\VideoSender\VideoSender\obj\x86\Debug\VideoSender.Properties.Resources.resources
 D:\Master in Computer Science\Thesis\Video1.0\VideoSender\VideoSender\obj\x86\Debug\VideoSender.csproj.GenerateResource.Cache
 D:\Master in Computer Science\Thesis\Video1.0\VideoSender\VideoSender\obj\x86\Debug\VideoSender.csprojResolveAssemblyReference.cache
+C:\Users\Mahesh\Documents\Repo\thesis\VideoSender\VideoSender\obj\x86\Debug\VideoSender.exe
+C:\Users\Mahesh\Documents\Repo\thesis\VideoSender\VideoSender\obj\x86\Debug\VideoSender.pdb
+C:\Users\Mahesh\Documents\Repo\thesis\VideoSender\VideoSender\bin\Debug\VideoSender.exe
+C:\Users\Mahesh\Documents\Repo\thesis\VideoSender\VideoSender\bin\Debug\VideoSender.pdb
+C:\Users\Mahesh\Documents\Repo\thesis\VideoSender\VideoSender\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Mahesh\Documents\Repo\thesis\VideoSender\VideoSender\obj\x86\Debug\VideoSender.Form1.resources
+C:\Users\Mahesh\Documents\Repo\thesis\VideoSender\VideoSender\obj\x86\Debug\VideoSender.Properties.Resources.resources
+C:\Users\Mahesh\Documents\Repo\thesis\VideoSender\VideoSender\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Mahesh\Documents\Repo\thesis\VideoSender\VideoSender\obj\x86\Debug\GenerateResource.write.1.tlog

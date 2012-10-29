@@ -67,7 +67,7 @@ namespace VideoSender
         {
             deviceHandle = CameraCapture.Avicap32.capCreateCaptureWindow("", CameraCapture.Constants.WS_VISIBLE | CameraCapture.Constants.WS_CHILD, 0, 0, control.Width, control.Height, control.Handle, 0);
             int val=CameraCapture.User32.SendMessage(deviceHandle, CameraCapture.Constants.WM_CAP_DRIVER_CONNECT, (IntPtr)deviceNumber, (IntPtr)0).ToInt32();
-            Console.WriteLine(val);
+            //Console.WriteLine(val);
             //if ( val> 0)
             while (CameraCapture.User32.SendMessage(deviceHandle, CameraCapture.Constants.WM_CAP_DRIVER_CONNECT, (IntPtr)deviceNumber, (IntPtr)0).ToInt32() <= 0)
             {
