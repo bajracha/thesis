@@ -28,7 +28,8 @@ namespace VideoSender
         int fileCount = 0;
         int filesBuffered = 0;
         Thread buffering;
-        Thread transmission;
+        Thread transmission;       
+        
 
         public Form1()
         {
@@ -83,6 +84,8 @@ namespace VideoSender
                 {
                     ((CaptureDevice)cboDevices.SelectedItem).Attach(pbImage);
 
+                    //((CaptureDevice)cboDevices.SelectedItem).GrabFrame();
+
                     if (transmission.ThreadState.ToString().Equals("Unstarted"))
                         transmission.Start();
                     if (buffering.ThreadState.ToString().Equals("Unstarted"))
@@ -95,9 +98,41 @@ namespace VideoSender
             }
         }
 
-        
-
         private void FillBuffer()
+        {
+            int inx = 0;
+            String frameFile;//= "captureFrame.jpg";
+            while (true)
+            {
+                try
+                {
+                    //if (File.Exists("captureFrame.jpg"))
+                    //    File.Delete("captureFrame.jpg");
+
+                    //inx = inx > 100 ? 1 : inx + 1;
+                    frameFile = "captureFrame" + inx.ToString() + ".jpg";
+                    image = ((CaptureDevice)cboDevices.SelectedItem).GrabFrame(frameFile);
+                    System.Threading.Thread.Sleep(33);
+
+                    //image = Image.FromFile(frameFile);                    
+                    imgDataStream = new MemoryStream();
+                    image.Save(imgDataStream, ImageFormat.Jpeg);
+                    image.Dispose();
+                    sendBuffer = imgDataStream.ToArray(); 
+                   
+                    try
+                    {
+                        saveToBuffer(sendBuffer);
+                    }
+                    catch { }
+                    imgDataStream.Close();
+                    
+                }
+                catch { }
+            }
+        }
+
+        /*private void FillBuffer()
         {
 
             while (true)
@@ -123,7 +158,7 @@ namespace VideoSender
                 }
                 catch {}
             }
-        }
+        }*/
 
         private void saveToBuffer(byte[] sendBuffer)
         {
@@ -191,6 +226,7 @@ namespace VideoSender
                         s = sizeReader.ReadLine();
                         size = int.Parse(s);
 
+                        //change this part 
                         /*int oldFileCount = fileCount > 5 ? fileCount - 5 : (10 + fileCount - 5);
                         String oldvidFilename = "Video" + oldFileCount.ToString() + ".dat";
                         String oldsizeFilename = "Siz" + oldFileCount.ToString() + ".dat";

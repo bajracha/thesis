@@ -179,7 +179,8 @@ namespace VideoReceiver
                                 frameStream.Close();
                                 pbFrame.Image = frame;
                                 pbFrame.Refresh();
-                                Thread.Sleep(80);
+                                //Thread.Sleep(80);
+                                Thread.Sleep(120);
                                 progDisplay.PerformStep();
                                 s = sizeReader.ReadLine();
                                 try

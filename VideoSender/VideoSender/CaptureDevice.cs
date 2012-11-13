@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Text;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
+using System.IO;
 
 namespace VideoSender
 {
@@ -121,6 +123,25 @@ namespace VideoSender
             }
 
             return null;
+        }
+
+        public Image GrabFrame(String path)
+        {
+            if (File.Exists(path))
+            {
+                try
+                {
+                    File.Delete(path);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("cannot delete file: " + ex.Message);
+                }
+            }
+            CameraCapture.User32.SendMessage(deviceHandle, CameraCapture.Constants.WM_CAP_GRAB_FRAME_NOSTOP, (IntPtr)0, (IntPtr)0);
+            IntPtr hBmp = Marshal.StringToHGlobalAnsi(path);
+            CameraCapture.User32.SendMessage(deviceHandle, CameraCapture.Constants.WM_CAP_SAVEDIB, (IntPtr)0, hBmp);            
+            return Image.FromFile(path);
         }
 
         /// <summary>
