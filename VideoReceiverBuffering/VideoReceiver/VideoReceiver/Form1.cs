@@ -18,6 +18,10 @@ namespace VideoReceiver
 {
     public partial class Form1 : Form
     {
+        Socket sendingSocket;
+        IPAddress sendToAddress;
+        IPEndPoint sendingEndPoint;
+
         const int listenPort = 11000;
         UdpClient listener;
         IPAddress receiveAddress;
@@ -60,6 +64,11 @@ namespace VideoReceiver
             SetDoubleBuffered(pbFrame);
 
             //isBuffered = new Boolean[20];
+            
+            
+        }
+
+        private void deleteAllFiles() {
             for (int oldFileCount = 1; oldFileCount <= 20; oldFileCount++)
             {
                 String oldvidFilename = "Video" + oldFileCount.ToString() + ".dat";
@@ -73,7 +82,6 @@ namespace VideoReceiver
 
                 //isBuffered[oldFileCount - 1] = false;
             }
-            
         }
 
         private void resetProgress(int buff, int dis)
@@ -106,7 +114,42 @@ namespace VideoReceiver
             
             try
             {
-                 
+                Console.WriteLine("Status_>"+displaying.IsAlive);
+                if (!displaying.IsAlive)
+                {
+                    byte[] send_buffer;
+                    Console.WriteLine(dayPicker.Value.Date);
+                    Console.WriteLine(hourCombo.SelectedItem);
+                    Console.WriteLine(mincombo.SelectedItem);
+                    sendingSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                    sendToAddress = IPAddress.Parse("127.0.0.1");
+                    UTF8Encoding encoding = new UTF8Encoding();
+                    sendingEndPoint = new IPEndPoint(sendToAddress, 12000);
+                    send_buffer = encoding.GetBytes("sender->" + sendToAddress.ToString());
+                    sendingSocket.SendTo(send_buffer, sendingEndPoint);
+                    send_buffer = encoding.GetBytes("date->" + dayPicker.Value.Date.ToString());
+                    sendingSocket.SendTo(send_buffer, sendingEndPoint);
+                    send_buffer = encoding.GetBytes("hour->" + hourCombo.SelectedItem.ToString());
+                    sendingSocket.SendTo(send_buffer, sendingEndPoint);
+                    send_buffer = encoding.GetBytes("min->" + mincombo.SelectedItem.ToString());
+                    sendingSocket.SendTo(send_buffer, sendingEndPoint);
+                    send_buffer = encoding.GetBytes("status->sendlive");
+                    sendingSocket.SendTo(send_buffer, sendingEndPoint);
+
+                    buffering.Abort();
+                    displaying.Abort();
+                    saveByteArray.Clear();
+                    saveFrameSize.Clear();
+                    this.resetProgress(1, 1);
+                    fileCount = 0;
+                    filesBuffered = 0;
+                    pbFrame.Image = null;
+                    deleteAllFiles();
+                    displaying = new Thread(this.Display);
+                    buffering = new Thread(this.FillBuffer);
+                    displaying.Start();
+                    buffering.Start();
+                }
                 if (buffering.ThreadState.ToString().Equals("Unstarted"))
                     buffering.Start();                
                 if (displaying.ThreadState.ToString().Equals("Unstarted"))
@@ -125,8 +168,6 @@ namespace VideoReceiver
         {
             String vidFilename;
             String sizeFilename;
-            FileStream vidFileStream;            
-            StreamReader sizeReader;
             String s;
             int size;
             byte[] frameData;
@@ -149,10 +190,13 @@ namespace VideoReceiver
                         
                         //if (isBuffered[fileCount - 1])
                         //{
+                        
                             vidFilename = "Video" + fileCount.ToString() + ".dat";
                             sizeFilename = "Siz" + fileCount.ToString() + ".dat";
-                            vidFileStream = new FileStream(vidFilename, FileMode.Open, FileAccess.Read);
-                            sizeReader = new StreamReader(sizeFilename);
+                            FileStream vidFileStream = new FileStream(vidFilename, FileMode.Open, FileAccess.Read);
+                            StreamReader sizeReader = new StreamReader(sizeFilename);
+                            try
+                            {
                             s = sizeReader.ReadLine();
                             size = int.Parse(s);
 
@@ -179,7 +223,7 @@ namespace VideoReceiver
                                 frameStream.Close();
                                 pbFrame.Image = frame;
                                 pbFrame.Refresh();
-                                Thread.Sleep(80);
+                                Thread.Sleep(150);
                                 progDisplay.PerformStep();
                                 s = sizeReader.ReadLine();
                                 try
@@ -203,8 +247,16 @@ namespace VideoReceiver
                             {
                                 Console.WriteLine("File Delete Error: " + ex.Message);
                             }
+                        
                         }
-                    //}
+                        catch(Exception ex){
+                        }
+                        finally{
+                            vidFileStream.Close();
+                            sizeReader.Close(); 
+                        }
+
+                    }
                 }
                 catch (FileNotFoundException) { Thread.Sleep(200); }
                 catch (Exception ex)
@@ -223,7 +275,8 @@ namespace VideoReceiver
 
         private void FillBuffer()
         {
-            Console.WriteLine("filling...");            
+            Console.WriteLine("filling...");
+            
             while (true)
             {
                 
@@ -245,21 +298,28 @@ namespace VideoReceiver
                             String sizeFilename = "Siz" + fileCount.ToString() + ".dat";
                             FileStream vidFileStream = new FileStream(vidFilename, FileMode.Create, FileAccess.Write);
                             StreamWriter sizeFileStream = new StreamWriter(sizeFilename);
+                            try
+                            {
 
-                            foreach (byte[] byteArrayElement in saveByteArray)
-                                vidFileStream.Write(byteArrayElement, 0, byteArrayElement.Length);
-
-
-                            foreach (int sizeArrayElement in saveFrameSize)
-                                sizeFileStream.WriteLine(sizeArrayElement);
+                                foreach (byte[] byteArrayElement in saveByteArray)
+                                    vidFileStream.Write(byteArrayElement, 0, byteArrayElement.Length);
 
 
-                            saveByteArray.Clear();
-                            saveFrameSize.Clear();
-                            filesBuffered = filesBuffered > 5 ? 5 : filesBuffered + 1;
-                            vidFileStream.Close();
-                            sizeFileStream.Close();
+                                foreach (int sizeArrayElement in saveFrameSize)
+                                    sizeFileStream.WriteLine(sizeArrayElement);
+                            }
+                            catch (Exception ex)
+                            {
+                            }
+                            finally {
+                                saveByteArray.Clear();
+                                saveFrameSize.Clear();
+                                filesBuffered = filesBuffered > 5 ? 5 : filesBuffered + 1;
+                                vidFileStream.Close();
+                                sizeFileStream.Close();
 
+                            }
+                            
                             //lock (isBuffered)
                             //{
                              //   isBuffered[fileCount - 1] = true;
@@ -316,6 +376,79 @@ namespace VideoReceiver
             uint sp = (uint)(Mo["CurrentClockSpeed"]);
             Mo.Dispose();
             return sp;
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void datetimebutton_Click(object sender, EventArgs e)
+        {
+            byte[] send_buffer; 
+            Console.WriteLine(dayPicker.Value.Date);
+            Console.WriteLine(hourCombo.SelectedItem);
+            Console.WriteLine(mincombo.SelectedItem);
+            sendingSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            sendToAddress = IPAddress.Parse("127.0.0.1");
+            UTF8Encoding encoding = new UTF8Encoding();
+            sendingEndPoint = new IPEndPoint(sendToAddress, 12000);
+            send_buffer = encoding.GetBytes("sender->"+sendToAddress.ToString());
+            sendingSocket.SendTo(send_buffer, sendingEndPoint);
+            send_buffer = encoding.GetBytes("date->" + dayPicker.Value.Date.ToString());
+            sendingSocket.SendTo(send_buffer, sendingEndPoint);
+            send_buffer = encoding.GetBytes("hour->" + hourCombo.SelectedItem.ToString());
+            sendingSocket.SendTo(send_buffer, sendingEndPoint);
+            send_buffer = encoding.GetBytes("min->" + mincombo.SelectedItem.ToString());
+            sendingSocket.SendTo(send_buffer, sendingEndPoint);
+            send_buffer = encoding.GetBytes("status->send");
+            sendingSocket.SendTo(send_buffer, sendingEndPoint);
+
+            buffering.Abort();
+            displaying.Abort();
+            saveByteArray.Clear();
+            saveFrameSize.Clear();
+            this.resetProgress(1, 1);
+            fileCount = 0;
+            filesBuffered = 0;
+            pbFrame.Image = null;
+            deleteAllFiles();
+            displaying = new Thread(this.Display);
+            buffering = new Thread(this.FillBuffer);
+            displaying.Start();
+            buffering.Start();
+        }
+
+        private void stopbutton_Click(object sender, EventArgs e)
+        {
+            byte[] send_buffer;
+            Console.WriteLine(dayPicker.Value.Date);
+            Console.WriteLine(hourCombo.SelectedItem);
+            Console.WriteLine(mincombo.SelectedItem);
+            sendingSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            sendToAddress = IPAddress.Parse("127.0.0.1");
+            UTF8Encoding encoding = new UTF8Encoding();
+            sendingEndPoint = new IPEndPoint(sendToAddress, 12000);
+            send_buffer = encoding.GetBytes("sender->" + sendToAddress.ToString());
+            sendingSocket.SendTo(send_buffer, sendingEndPoint);
+            send_buffer = encoding.GetBytes("date->" + dayPicker.Value.Date.ToString());
+            sendingSocket.SendTo(send_buffer, sendingEndPoint);
+            send_buffer = encoding.GetBytes("hour->" + hourCombo.SelectedItem.ToString());
+            sendingSocket.SendTo(send_buffer, sendingEndPoint);
+            send_buffer = encoding.GetBytes("min->" + mincombo.SelectedItem.ToString());
+            sendingSocket.SendTo(send_buffer, sendingEndPoint);
+            send_buffer = encoding.GetBytes("status->stop");
+            sendingSocket.SendTo(send_buffer, sendingEndPoint);
+
+            saveByteArray.Clear();
+            saveFrameSize.Clear();
+            this.resetProgress(1, 1);
+            buffering.Abort();
+            displaying.Abort();
+            //deleteAllFiles();
+            fileCount = 0;
+            filesBuffered = 0;
+            pbFrame.Image = null;
         }
 
         
