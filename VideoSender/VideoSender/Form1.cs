@@ -37,6 +37,7 @@ namespace VideoSender
 
         //For database
         string ConnectionString = "SERVER=localhost;DATABASE=thesis;UID=root;PASSWORD=;";
+        //string ConnectionString = "SERVER=localhost;DATABASE=thesis;UID=root;PASSWORD=root78#;";
         MySqlConnection connection;
         MySqlDataAdapter adapter;
         DataTable DTItems;
@@ -119,8 +120,38 @@ namespace VideoSender
 
         private void FillBuffer()
         {
-
+            int inx = 0;
+            String frameFile;//= "captureFrame.jpg";
             while (true)
+            {
+                try
+                {
+                    //if (File.Exists("captureFrame.jpg"))
+                    //    File.Delete("captureFrame.jpg");
+
+                    //inx = inx > 100 ? 1 : inx + 1;
+                    frameFile = "captureFrame" + inx.ToString() + ".jpg";
+                    image = ((CaptureDevice)cboDevices.SelectedItem).GrabFrame(frameFile);
+                    System.Threading.Thread.Sleep(33);
+
+                    //image = Image.FromFile(frameFile);                    
+                    imgDataStream = new MemoryStream();
+                    image.Save(imgDataStream, ImageFormat.Jpeg);
+                    image.Dispose();
+                    sendBuffer = imgDataStream.ToArray();
+
+                    try
+                    {
+                        saveToBuffer(sendBuffer);
+                    }
+                    catch { }
+                    imgDataStream.Close();
+
+                }
+                catch { }
+            }
+
+            /*while (true)
             {
                 try
                 {
@@ -142,7 +173,7 @@ namespace VideoSender
                     }
                 }
                 catch {}
-            }
+            }*/
         }
 
         private void saveToBuffer(byte[] sendBuffer)
