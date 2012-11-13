@@ -66,15 +66,28 @@ namespace VideoSender
         public void Attach(System.Windows.Forms.Control control)
         {
             deviceHandle = CameraCapture.Avicap32.capCreateCaptureWindow("", CameraCapture.Constants.WS_VISIBLE | CameraCapture.Constants.WS_CHILD, 0, 0, control.Width, control.Height, control.Handle, 0);
-
-            if (CameraCapture.User32.SendMessage(deviceHandle, CameraCapture.Constants.WM_CAP_DRIVER_CONNECT, (IntPtr)deviceNumber, (IntPtr)0).ToInt32() > 0)
+            int val = CameraCapture.User32.SendMessage(deviceHandle, CameraCapture.Constants.WM_CAP_DRIVER_CONNECT, (IntPtr)deviceNumber, (IntPtr)0).ToInt32();
+            Console.WriteLine(val);
+            //if ( val> 0)
+            while (CameraCapture.User32.SendMessage(deviceHandle, CameraCapture.Constants.WM_CAP_DRIVER_CONNECT, (IntPtr)deviceNumber, (IntPtr)0).ToInt32() <= 0)
+            {
+                CameraCapture.User32.DestroyWindow(deviceHandle);
+                System.Threading.Thread.Sleep(1000);
+            }
             {
                 CameraCapture.User32.SendMessage(deviceHandle, CameraCapture.Constants.WM_CAP_SET_SCALE, (IntPtr)(-1), (IntPtr)0);
-                CameraCapture.User32.SendMessage(deviceHandle, CameraCapture.Constants.WM_CAP_SET_PREVIEWRATE, (IntPtr)0x42, (IntPtr)0);
+                CameraCapture.User32.SendMessage(deviceHandle, CameraCapture.Constants.WM_CAP_SET_PREVIEWRATE, (IntPtr)0x34, (IntPtr)0);
                 CameraCapture.User32.SendMessage(deviceHandle, CameraCapture.Constants.WM_CAP_SET_PREVIEW, (IntPtr)(-1), (IntPtr)0);
+                CameraCapture.User32.SendMessage(deviceHandle, CameraCapture.Constants.WM_CAP_DLG_VIDEOFORMAT, (IntPtr)(-1), (IntPtr)0);
                 CameraCapture.User32.SetWindowPos(deviceHandle, new IntPtr(0), 0, 0, control.Width, control.Height, 6);
-                CameraCapture.User32.SendMessage(deviceHandle, CameraCapture.Constants.WM_CAP_DLG_VIDEOFORMAT, (IntPtr)(0), (IntPtr)0);
+
+
             }
+            //else {
+            //  Console.WriteLine(deviceNumber);
+            //  Console.WriteLine("Error");
+            // CameraCapture.User32.DestroyWindow(deviceHandle);
+            //}
         }
 
         /// <summary>

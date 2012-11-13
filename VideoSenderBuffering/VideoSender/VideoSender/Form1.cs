@@ -12,6 +12,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
+using MySql.Data.MySqlClient;
+using System.Configuration;
+
 namespace VideoSender
 {
     public partial class Form1 : Form
@@ -26,6 +29,13 @@ namespace VideoSender
         CircularBuffer frameBuffer;
         Thread transmission;
         Thread buffering;
+
+
+        //For database
+        string ConnectionString = "SERVER=localhost;DATABASE=inventorydb;UID=root;PASSWORD=;";
+        MySqlConnection connection;
+        MySqlDataAdapter adapter;
+        DataTable DTItems;
 
         public Form1()
         {
@@ -172,6 +182,7 @@ namespace VideoSender
                         else
                             progBuffer.PerformStep();
 
+                        
                         imgDataStream.Close();
                     }
                     //else
