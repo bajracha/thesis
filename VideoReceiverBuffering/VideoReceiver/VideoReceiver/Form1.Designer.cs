@@ -41,7 +41,11 @@
             this.mincombo = new System.Windows.Forms.ComboBox();
             this.datetimebutton = new System.Windows.Forms.Button();
             this.stopbutton = new System.Windows.Forms.Button();
+            this.progBufferDB = new System.Windows.Forms.ProgressBar();
+            this.progDisplayDB = new System.Windows.Forms.ProgressBar();
+            this.pbFrameDB = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbFrame)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFrameDB)).BeginInit();
             this.SuspendLayout();
             // 
             // btnStart
@@ -193,11 +197,38 @@
             this.stopbutton.UseVisualStyleBackColor = true;
             this.stopbutton.Click += new System.EventHandler(this.stopbutton_Click);
             // 
+            // progBufferDB
+            // 
+            this.progBufferDB.ForeColor = System.Drawing.Color.Gray;
+            this.progBufferDB.Location = new System.Drawing.Point(12, 458);
+            this.progBufferDB.Name = "progBufferDB";
+            this.progBufferDB.Size = new System.Drawing.Size(319, 17);
+            this.progBufferDB.TabIndex = 15;
+            // 
+            // progDisplayDB
+            // 
+            this.progDisplayDB.ForeColor = System.Drawing.Color.ForestGreen;
+            this.progDisplayDB.Location = new System.Drawing.Point(12, 435);
+            this.progDisplayDB.Name = "progDisplayDB";
+            this.progDisplayDB.Size = new System.Drawing.Size(319, 17);
+            this.progDisplayDB.TabIndex = 14;
+            // 
+            // pbFrameDB
+            // 
+            this.pbFrameDB.Location = new System.Drawing.Point(12, 189);
+            this.pbFrameDB.Name = "pbFrameDB";
+            this.pbFrameDB.Size = new System.Drawing.Size(320, 240);
+            this.pbFrameDB.TabIndex = 13;
+            this.pbFrameDB.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 562);
+            this.Controls.Add(this.progBufferDB);
+            this.Controls.Add(this.progDisplayDB);
+            this.Controls.Add(this.pbFrameDB);
             this.Controls.Add(this.stopbutton);
             this.Controls.Add(this.datetimebutton);
             this.Controls.Add(this.mincombo);
@@ -214,6 +245,7 @@
             this.Name = "Form1";
             this.Text = "Video Receive";
             ((System.ComponentModel.ISupportInitialize)(this.pbFrame)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFrameDB)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -234,6 +266,9 @@
         private System.Windows.Forms.ComboBox mincombo;
         private System.Windows.Forms.Button datetimebutton;
         private System.Windows.Forms.Button stopbutton;
+        private System.Windows.Forms.ProgressBar progBufferDB;
+        private System.Windows.Forms.ProgressBar progDisplayDB;
+        private System.Windows.Forms.PictureBox pbFrameDB;
     }
 }
 

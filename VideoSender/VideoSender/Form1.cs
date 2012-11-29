@@ -25,6 +25,9 @@ namespace VideoSender
         Socket sendingSocket;
         IPAddress sendToAddress;
         IPEndPoint sendingEndPoint;
+        Socket sendingSocketDB;
+        IPAddress sendToAddressDB;
+        IPEndPoint sendingEndPointDB;
         byte[] sendBuffer;
         List<byte[]> saveByteArray;
         List<int> saveFrameSize;
@@ -56,6 +59,10 @@ namespace VideoSender
             sendToAddress = IPAddress.Parse("127.0.0.1");
             //sendToAddress = IPAddress.Parse("192.168.0.101");
             sendingEndPoint = new IPEndPoint(sendToAddress, 11000);
+
+            sendingSocketDB = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            sendToAddressDB = IPAddress.Parse("127.0.0.1");
+            sendingEndPointDB = new IPEndPoint(sendToAddressDB, 11001);
             transmission = new Thread(this.sendFromBuffer);
             buffering = new Thread(this.FillBuffer);
             buffering.SetApartmentState(ApartmentState.STA); //this is reqd as this thread gets data from clipboard
@@ -247,7 +254,7 @@ namespace VideoSender
                         MySqlCommand idcmd = new MySqlCommand("SELECT last_insert_id()", connection);
                         MySqlDataReader dataReader = idcmd.ExecuteReader(CommandBehavior.SequentialAccess);
                         dataReader.Read();
-                        int videoID = dataReader.GetInt16(0);
+                        double videoID = dataReader.GetDouble(0);
                         Console.WriteLine(videoID);
                         dataReader.Close();
                         
@@ -266,7 +273,7 @@ namespace VideoSender
                         MySqlCommand sizeidcmd = new MySqlCommand("SELECT last_insert_id()", connection);
                         MySqlDataReader sizedataReader = sizeidcmd.ExecuteReader(CommandBehavior.SequentialAccess);
                         sizedataReader.Read();
-                        int sizeID = sizedataReader.GetInt16(0);
+                        double sizeID = sizedataReader.GetDouble(0);
                         Console.WriteLine(sizeID);
                         sizedataReader.Close();
 
@@ -330,8 +337,8 @@ namespace VideoSender
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read())
                 {
-                    int sizeID=dataReader.GetInt16(1);
-                    int videoID=dataReader.GetInt16(0);
+                    double sizeID=dataReader.GetDouble(1);
+                    double videoID = dataReader.GetDouble(0);
                     
                 MySqlConnection sizeconnection = new MySqlConnection(ConnectionString);
                 sizeconnection.Open();
@@ -407,10 +414,10 @@ namespace VideoSender
                                 frameStream.Close();
                                 pbImage.Image = frame;
                                 pbImage.Refresh();*/
-                                if (sendFromDB)
-                                    sendingSocket.SendTo(frameData, sendingEndPoint);
-                                else
-                                    return;
+                                //if (sendFromDB)
+                                    sendingSocket.SendTo(frameData, sendingEndPointDB);
+                                //else
+                                  //  return;
                                 s = sizeReader.ReadLine();
                                 try
                                 {
@@ -487,7 +494,7 @@ namespace VideoSender
 
                         while (s != null)
                         {
-                            System.Threading.Thread.Sleep(10);
+                            System.Threading.Thread.Sleep(100);
                             frameData = new byte[size];
                             vidFileStream.Read(frameData, 0, size);
                             sendingSocket.SendTo(frameData, sendingEndPoint);
@@ -579,12 +586,12 @@ namespace VideoSender
                          Console.WriteLine(dateTime);
                          //sendingSocket.EndSend();
                          Console.WriteLine(transmission.ThreadState.ToString());
-                         if (transmission.ThreadState.ToString().Equals("Running"))
+                         /*if (transmission.ThreadState.ToString().Equals("Running"))
                          {
                              Console.WriteLine("Running");
                              transmission.Abort();
                          }
-                         sendFromDB = true;
+                         sendFromDB = true;*/
                          sendToTime = dateTime;
                          sendToIP = sender;
                          txfromDB = new Thread(this.readandsendFromDB);             
@@ -599,19 +606,19 @@ namespace VideoSender
                      else if (status.Equals("sendlive"))
                      {
                          Console.WriteLine(transmission.ThreadState.ToString());
-                         if (transmission.ThreadState.ToString().Equals("Aborted") || transmission.ThreadState.ToString().Equals("Stopped"))
+                         /*if (transmission.ThreadState.ToString().Equals("Aborted") || transmission.ThreadState.ToString().Equals("Stopped"))
                          {
                              transmission = new Thread(this.sendFromBuffer);
                              transmission.Start();
-                         }
+                         }*/
                      }
                      else if (status.Equals("stop"))
                      {
-                         if (transmission.ThreadState.ToString().Equals("Running"))
+                         /*if (transmission.ThreadState.ToString().Equals("Running"))
                          {
                              Console.WriteLine("Running");
                              transmission.Abort();
-                         }
+                         }*/
                          txfromDB.Abort();
                          sendFromDB = false;
                      }
