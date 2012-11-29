@@ -358,10 +358,10 @@ namespace VideoSender
                 byte[] outbyte = new byte[bufferSize];
                 long startIndex = 0;
                 long retval = 0;
-                int fileID;
+                double fileID;
                 while (sizedataReader.Read())
                 {
-                    fileID = (int)sizedataReader["file_id"];
+                    fileID = (double)sizedataReader["file_id"];
                     String fileName = (String)sizedataReader["file_name"];
                     Console.WriteLine(fileName);
                     startIndex = 0;
