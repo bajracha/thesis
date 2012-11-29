@@ -39,8 +39,8 @@ namespace VideoSender
 
 
         //For database
-        string ConnectionString = "SERVER=localhost;DATABASE=thesis;UID=root;PASSWORD=;";
-        //string ConnectionString = "SERVER=localhost;DATABASE=thesis;UID=root;PASSWORD=root78#;";
+        //string ConnectionString = "SERVER=localhost;DATABASE=thesis;UID=root;PASSWORD=;";
+        string ConnectionString = "SERVER=localhost;DATABASE=thesis;UID=root;PASSWORD=root78#;";
         MySqlConnection connection;
         MySqlDataAdapter adapter;
         DataTable DTItems;
