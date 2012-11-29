@@ -122,9 +122,10 @@ namespace VideoReceiver
                     Console.WriteLine(hourCombo.SelectedItem);
                     Console.WriteLine(mincombo.SelectedItem);
                     sendingSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-                    sendToAddress = IPAddress.Parse("127.0.0.1");
+                    //sendToAddress = IPAddress.Parse("127.0.0.1");
+                    sendToAddress = IPAddress.Parse("192.168.0.100");
                     UTF8Encoding encoding = new UTF8Encoding();
-                    sendingEndPoint = new IPEndPoint(sendToAddress, 12000);
+                    sendingEndPoint = new IPEndPoint(sendToAddress, 11000);
                     send_buffer = encoding.GetBytes("sender->" + sendToAddress.ToString());
                     sendingSocket.SendTo(send_buffer, sendingEndPoint);
                     send_buffer = encoding.GetBytes("date->" + dayPicker.Value.Date.ToString());
@@ -390,9 +391,9 @@ namespace VideoReceiver
             Console.WriteLine(hourCombo.SelectedItem);
             Console.WriteLine(mincombo.SelectedItem);
             sendingSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            sendToAddress = IPAddress.Parse("127.0.0.1");
+            sendToAddress = IPAddress.Parse("192.168.0.100");
             UTF8Encoding encoding = new UTF8Encoding();
-            sendingEndPoint = new IPEndPoint(sendToAddress, 12000);
+            sendingEndPoint = new IPEndPoint(sendToAddress, 11000);
             send_buffer = encoding.GetBytes("sender->"+sendToAddress.ToString());
             sendingSocket.SendTo(send_buffer, sendingEndPoint);
             send_buffer = encoding.GetBytes("date->" + dayPicker.Value.Date.ToString());
@@ -426,9 +427,11 @@ namespace VideoReceiver
             Console.WriteLine(hourCombo.SelectedItem);
             Console.WriteLine(mincombo.SelectedItem);
             sendingSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            sendToAddress = IPAddress.Parse("127.0.0.1");
+            //sendToAddress = IPAddress.Parse("127.0.0.1");
+            sendToAddress = IPAddress.Parse("192.168.0.100");
             UTF8Encoding encoding = new UTF8Encoding();
-            sendingEndPoint = new IPEndPoint(sendToAddress, 12000);
+            //sendingEndPoint = new IPEndPoint(sendToAddress, 12000);
+            sendingEndPoint = new IPEndPoint(sendToAddress, 11000);
             send_buffer = encoding.GetBytes("sender->" + sendToAddress.ToString());
             sendingSocket.SendTo(send_buffer, sendingEndPoint);
             send_buffer = encoding.GetBytes("date->" + dayPicker.Value.Date.ToString());
