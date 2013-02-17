@@ -1,0 +1,9 @@
+C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\SendReceiveOnly\VideoReceiverBuffering\VideoReceiver\VideoReceiver\bin\x64\Debug\VideoReceiver.exe
+C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\SendReceiveOnly\VideoReceiverBuffering\VideoReceiver\VideoReceiver\bin\x64\Debug\VideoReceiver.pdb
+C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\SendReceiveOnly\VideoReceiverBuffering\VideoReceiver\VideoReceiver\obj\x64\Debug\ResolveAssemblyReference.cache
+C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\SendReceiveOnly\VideoReceiverBuffering\VideoReceiver\VideoReceiver\obj\x64\Debug\VideoReceiver.Form1.resources
+C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\SendReceiveOnly\VideoReceiverBuffering\VideoReceiver\VideoReceiver\obj\x64\Debug\VideoReceiver.Properties.Resources.resources
+C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\SendReceiveOnly\VideoReceiverBuffering\VideoReceiver\VideoReceiver\obj\x64\Debug\GenerateResource.read.1.tlog
+C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\SendReceiveOnly\VideoReceiverBuffering\VideoReceiver\VideoReceiver\obj\x64\Debug\GenerateResource.write.1.tlog
+C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\SendReceiveOnly\VideoReceiverBuffering\VideoReceiver\VideoReceiver\obj\x64\Debug\VideoReceiver.exe
+C:\Users\Mahesh\Documents\Visual Studio 2010\Projects\ToDrY\SendReceiveOnly\VideoReceiverBuffering\VideoReceiver\VideoReceiver\obj\x64\Debug\VideoReceiver.pdb
